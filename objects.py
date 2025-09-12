@@ -1,21 +1,9 @@
 import base64
-import hashlib
-from pathlib  import Path
-from json import load, dump
-from uuid import uuid4, UUID
+from uuid import uuid4
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from register_data.register import UserRegistery, ProductRegistery ,OrderRegistery, CardRegistery
-
-
-def str_to_bytes(token_str: str) -> bytes:
-    # token_str looks like "b'...'"
-    if token_str.startswith("b'") and token_str.endswith("'"):
-        token_str = token_str[2:-1]   # remove the b' and trailing '
-    return token_str.encode()
-
-
 
 
 class Order:
@@ -44,7 +32,6 @@ class Order:
 
     def make(self):
         self.prod.ordered()
-        
 
     def data(self):
 
@@ -170,7 +157,7 @@ class User:
         if neworder.exist:
             if not self.card:
                 idcard = int(input("enter card: "))
-                balance = int(input("enter balance: "))
+                balance = float(input("enter balance: "))
                 self.card_register(idcard, balance)
             
             if not self.card.payment(prod.price):
@@ -196,7 +183,8 @@ class Product:
             self.price = data["price"]
             self.stock = data["stock"]
             self.available = data["availability"]
-            self.id = str_to_bytes(id)
+            self.id = self.str_to_bytes(id)
+
         else:
             Product.numOfProducts += 1
             self.name = name
@@ -231,11 +219,6 @@ class Product:
                 "availability": self.available
                 }
     
-def str_to_bytes(id_str: str) -> bytes:
-    return base64.urlsafe_b64decode(id_str)
-
-def bytes_to_str(id) -> str:
-    return base64.urlsafe_b64encode(id).decode() 
 
 p1 = Product("iPhone 13", 3000, 5)
 p2 = Product("macbook", 8000, 2)
