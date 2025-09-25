@@ -1,13 +1,18 @@
 from pathlib import Path
 from json import load, dump
 
+# Paths to json files
 general = Path("c:/Users/jabar/OneDrive/Desktop/project/e-commerce/register_data/data")
 misData = Path("c:/Users/jabar/OneDrive/Desktop/project/e-commerce/register_data/missing")
 idsPath = Path("c:/Users/jabar/OneDrive/Desktop/project/e-commerce/register_data/ids")
 
+# A thin JSON-backed registry layer. Each registry uses a JSON file for storage.
+
+# Parent
 class Registery:
     filename = misData / "default.json"
-   
+    
+    # Base registry with simple load/save helpers
     def __init__(self):
         super().__init__()
         self.filename = Registery.filename
@@ -20,6 +25,7 @@ class Registery:
         with open(file, "w") as f:
             dump(newDict, f, indent=4)
 
+# CardRegistery -> carts.json
 class CardRegistery(Registery):
     filename = general / "carts.json"
     
@@ -40,8 +46,9 @@ class CardRegistery(Registery):
     def find(self, id):
         cardDict = self.load(self.filename)
         id = str(id)
-        return cardDict[id] if id in cardDict else False
+        return cardDict[id] if id in cardDict else None
         
+# UserRegistery -> users.json
 class UserRegistery(Registery):
     filename = general / "users.json"
     card_register = CardRegistery()
@@ -66,8 +73,9 @@ class UserRegistery(Registery):
 
     def IsExist(self, id):
         userDict = self.load(self.filename)
-        return userDict[id] if id in userDict else False
-        
+        return userDict[id] if id in userDict else None
+
+# ProductRegistery -> products.json    
 class ProductRegistery(Registery):
     prodFile = general / "products.json"
     idsFile = idsPath / "prodIds.json"
@@ -100,6 +108,7 @@ class ProductRegistery(Registery):
         prodDict = self.load(self.filename)  
         return (prodDict[idDict[name]], idDict[name])
         
+# OrderRegistery -> orders.json
 class OrderRegistery(Registery):
     filename = general / "orders.json"
     idsFile = idsPath / "orderIds.json"
@@ -120,3 +129,10 @@ class OrderRegistery(Registery):
         self.save(identifyOrder, self.idsFile)
         
         return id
+
+    def update_state(self, order):
+        orderDict = self.load(self.filename)
+        orderDict[str(order.id)]["State"] = order.state
+        self.save(orderDict, self.filename)
+
+        

@@ -1,1 +1,26 @@
-{}
+{
+    "1s_EJhMMTYuxA5jblt6yVA==": {
+        "name": "iPhone 13",
+        "price": 3000,
+        "stock": 5,
+        "availability": true
+    },
+    "S9RcXQxdSgGOKd7nJWd3SA==": {
+        "name": "macbook",
+        "price": 8000,
+        "stock": 2,
+        "availability": true
+    },
+    "476D4Dr-RDyby3SDtmeMAw==": {
+        "name": "iPad",
+        "price": 5000,
+        "stock": 10,
+        "availability": true
+    },
+    "32zSp9zaQoqpYa_rlimoIg==": {
+        "name": "alienware m15 r7",
+        "price": 20000,
+        "stock": 1,
+        "availability": true
+    }
+}
