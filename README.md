@@ -58,23 +58,4 @@ The project currently uses hardcoded Windows-style paths (`c:/Users/jabar/...`) 
 - **Constructors with `input()` calls**: `User.__init__` requests `input()` for missing email/password and `card_register` asks for card balance interactively; constructors should avoid blocking I/O — move interactive prompts outside constructors.
 - **No error handling for missing JSON keys / file I/O**: many registry lookups assume well-formed files and keys exist; add try/except and validation.
 
----
 
-## Suggested next steps (prioritized)
-1. Stop overwriting your JSON files on import — create defaults only when files are missing.
-2. Move interactive `input()` calls out of constructors; provide explicit factory functions or CLI scripts for interactive workflows.
-3. Replace AES-ECB with a safe scheme or use `cryptography.fernet.Fernet` for IDs. Store keys in environment variables or a secure vault, never in source.
-4. Make paths configurable (env var or config file) and use relative paths by default.
-5. Add logging, exceptions, and unit tests for core behaviors (register, create product, make order, payments).
-
----
-
-## Contributing
-- Create an issue describing the change.
-- Submit a PR with tests and clear commit messages.
-- Follow semantic commits and include a `requirements.txt`.
-
----
-
-## License
-Add a LICENSE file (e.g., MIT) if you want to make this repo public.
